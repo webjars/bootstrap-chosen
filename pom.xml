@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <groupId>org.webjars</groupId>
     <artifactId>bootstrap-chosen</artifactId>
-    <version>1.0.0-1</version>
+    <version>1.0.0-1-SNAPSHOT</version>
     <name>bootstrap-chosen</name>
     <description>WebJar for bootstrap-chosen (modified to provide JSF support)</description>
     <url>http://webjars.org</url>
