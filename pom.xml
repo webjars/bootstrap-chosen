@@ -11,9 +11,9 @@
     <packaging>jar</packaging>
     <groupId>org.webjars</groupId>
     <artifactId>bootstrap-chosen</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0-1</version>
     <name>bootstrap-chosen</name>
-    <description>WebJar for bootstrap-chosen</description>
+    <description>WebJar for bootstrap-chosen (modified to provide JSF support)</description>
     <url>http://webjars.org</url>
 
     <properties>
@@ -75,6 +75,48 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>
+                            ${project.build.directory}/classes/META-INF/resources/webjars/bootstrap-chosen/*/*.less
+                        </include>
+                    </includes>
+                    <inputFilePattern>(.*).less</inputFilePattern>
+                    <outputFilePattern>$1-jsf.less</outputFilePattern>
+                    <replacements>
+                        <replacement>
+                            <token>@chosen-sprite-path: "([a-zA-Z_0-9-\.]*)";</token>
+                            <value>@chosen-sprite-path: "#{resource['webjars:bootstrap-chosen/${project.version}/$1']}";</value>
+                        </replacement>
+                        <replacement>
+                            <token>@chosen-sprite-retina-path: "([a-zA-Z_0-9-\.@]*)";</token>
+                            <value>@chosen-sprite-retina-path: "#{resource['webjars:bootstrap-chosen/${project.version}/$1']}";</value>
+                        </replacement>
+                        <replacement>
+                            <token>@import "bootstrap-chosen-variables.less";</token>
+                            <value>@import "bootstrap-chosen-variables-jsf.less";</value>
+                        </replacement>
+                    </replacements>
+                    <regex>true</regex>
+                    <regexFlags>
+                        <regexFlag>CASE_INSENSITIVE</regexFlag>
+                    </regexFlags>
+                    <unescape>true</unescape>
+                </configuration>
+            </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
